@@ -25,7 +25,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
-    const response = await fetch(`${BASE_URL}/${_id}/${friendId}`, {
+    const response = await fetch(`${BASE_URL}/users/${_id}/${friendId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,

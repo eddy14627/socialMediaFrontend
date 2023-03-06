@@ -29,9 +29,11 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
+    // this is all posts
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
     },
+    // this is specified user posts
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;

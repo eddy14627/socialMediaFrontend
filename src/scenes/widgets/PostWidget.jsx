@@ -5,12 +5,21 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Input,
+  Typography,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friends from "components/Friends";
+import UserImage from "components/UserImage.jsx";
 import WidgetWrapper from "components/WidgetWrapper";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setPost } from "state";
 import BASE_URL from "../../url.js";
 
@@ -25,13 +34,43 @@ const PostWidget = ({
   likes,
   comments,
 }) => {
+  const { activeUserPicture, id } = useSelector((state) => state.currUser);
+  const [seeMore, setSeeMore] = useState(false);
+  const [inputComment, setInputComment] = useState("");
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
+  const navigate = useNavigate();
 
+  const handleChangeComment = (e) => {
+    setInputComment(e.target.value);
+  };
+
+  const handleSubmitComment = async () => {
+    console.log("Submit Comment");
+    const SendComment = {
+      userId: id,
+      postId: postId,
+      commentText: inputComment,
+      commentPicture: activeUserPicture,
+    };
+    console.log(SendComment);
+    const data = await fetch(`${BASE_URL}/comment`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(SendComment),
+    });
+    const response = await data.json();
+    console.log(response);
+    dispatch(setPost({ post: response }));
+    setInputComment("");
+  };
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -46,6 +85,7 @@ const PostWidget = ({
       body: JSON.stringify({ userId: loggedInUserId }),
     });
     const updatedPosts = await response.json();
+    console.log(updatedPosts);
     dispatch(setPost({ post: updatedPosts }));
   };
 
@@ -57,7 +97,6 @@ const PostWidget = ({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
-
       <Typography color={main} sx={{ mt: "1rem" }}>
         {" "}
         {description}{" "}
@@ -100,13 +139,73 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => {
+          <Box marginBottom="10px" display="flex" flexDirection="row">
+            <Button
+              onClick={() => {
+                navigate(`/profile/${id}`);
+                // find why this is used and how to replace with some permanent solution
+                navigate(0);
+              }}
+            >
+              <UserImage image={activeUserPicture} size="50px" />
+            </Button>
+            <Box
+              marginBottom="10px"
+              marginLeft="15px"
+              display="flex"
+              flexDirection="row"
+            >
+              <Input
+                value={inputComment}
+                onChange={handleChangeComment}
+                placeholder="comment"
+              />
+              <Button onClick={handleSubmitComment}>comment</Button>
+            </Box>
+          </Box>
+          {comments.map(({ commentText, userId, commentPicture }) => {
             return (
-              <Box key={`${name}-${i}`}>
+              <Box>
                 <Divider />
-                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                  {comment}
-                </Typography>
+                <Box marginLeft="20px" display="flex" flexDirection="row">
+                  <Button
+                    onClick={() => {
+                      navigate(`/profile/${userId}`);
+                      // find why this is used and how to replace with some permanent solution
+                      navigate(0);
+                    }}
+                  >
+                    <UserImage image={commentPicture} size="30px" />
+                  </Button>
+                  <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                    {commentText.length < 200
+                      ? commentText
+                      : !seeMore
+                      ? `${commentText.slice(0, 80)}.....`
+                      : commentText}
+                    {commentText.length > 200 ? (
+                      !seeMore ? (
+                        <Button
+                          onClick={() => {
+                            setSeeMore(!seeMore);
+                          }}
+                        >
+                          See More
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            setSeeMore(!seeMore);
+                          }}
+                        >
+                          See Less
+                        </Button>
+                      )
+                    ) : (
+                      commentText
+                    )}
+                  </Typography>
+                </Box>
               </Box>
             );
           })}

@@ -15,6 +15,7 @@ const ProfilePage = () => {
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width : 1000px)");
+  const activeUserPicture = useSelector((state) => state.currUserPicture);
 
   const getUser = async () => {
     const response = await fetch(`${BASE_URL}/users/${userId}`, {
@@ -54,7 +55,7 @@ const ProfilePage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget picturePath={user.picturePath} />
+          <MyPostWidget picturePath={activeUserPicture} />
           <Box m="2rem 0" />
           <PostsWidget userId={userId} isProfile="true" />
         </Box>

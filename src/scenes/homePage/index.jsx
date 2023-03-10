@@ -1,17 +1,22 @@
 import { Box, useMediaQuery } from "@mui/material";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "scenes/navbar";
 import { AdvertWidget } from "scenes/widgets/AdvertWidget";
 import FriendListWidgets from "scenes/widgets/FriendListWidgets";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
 import PostsWidget from "scenes/widgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
+import { setActiveUser } from "state";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(setActiveUser({ activeUserPicture: picturePath, id: _id }));
+  });
   return (
     <Box>
       <Navbar />

@@ -5,6 +5,10 @@ const initialState = {
   user: null,
   token: null,
   posts: [],
+  currUser: {
+    activeUserPicture: null,
+    id: null,
+  },
 };
 
 export const authSlice = createSlice({
@@ -31,6 +35,7 @@ export const authSlice = createSlice({
     },
     // this is all posts
     setPosts: (state, action) => {
+      console.log(action.payload);
       state.posts = action.payload.posts;
     },
     // this is specified user posts
@@ -41,9 +46,20 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+    setActiveUser: (state, action) => {
+      console.log(action.payload);
+      state.currUser = action.payload;
+    },
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setActiveUser,
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+} = authSlice.actions;
 export default authSlice.reducer;

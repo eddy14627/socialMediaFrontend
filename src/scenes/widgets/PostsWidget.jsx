@@ -19,22 +19,22 @@ const PostsWidget = ({ userId, isProfile }) => {
   };
 
   const getUserPosts = async () => {
-    const response = await fetch(`${BASE_URL}/posts/${userId}/posts`, {
+    const response = await fetch(`${BASE_URL}/posts/userPost/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     console.log(data);
-    dispatch(setPost({ posts: data }));
+    dispatch(setPosts({ posts: data }));
   };
 
   useEffect(() => {
     // req to fix this code so that we can ge personilized posts in user section
-    // if ((isProfile = "true")) {
-    //   getUserPosts();
-    // } else {
-    getPosts();
-    // }
+    if (isProfile === "true") {
+      getUserPosts();
+    } else {
+      getPosts();
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

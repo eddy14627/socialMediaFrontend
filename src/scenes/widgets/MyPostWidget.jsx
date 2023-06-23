@@ -27,11 +27,13 @@ import { setPosts } from "state";
 import BASE_URL from "../../url.js";
 
 const MyPostWidget = ({ picturePath }) => {
+  // console.log(picturePath);
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
+  const { activeUserPicture } = useSelector((state) => state.currUser);
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -61,7 +63,7 @@ const MyPostWidget = ({ picturePath }) => {
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <UserImage image={activeUserPicture} />
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}

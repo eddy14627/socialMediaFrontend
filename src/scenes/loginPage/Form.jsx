@@ -24,7 +24,7 @@ const registerSchema = yup.object().shape({
   password: yup.string().required("required"),
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
-  picture: yup.string().required("required"),
+  picture: yup.mixed().notRequired().nullable(),
 });
 
 const loginSchema = yup.object().shape({
@@ -39,7 +39,7 @@ const initialValuesRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  picture: null,
 };
 
 const initialValuesLogin = {
@@ -57,18 +57,22 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
+    console.log("REGISTERING");
     // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
     }
-    formData.append("picturePath", values.picture.name);
+    if (values.picture) {
+      formData.append("picturePath", values.picture.name);
+    }
 
     const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       body: formData,
     });
     const savedUser = await savedUserResponse.json();
+    console.log(savedUser);
     onSubmitProps.resetForm();
 
     if (savedUser) {
@@ -77,6 +81,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
+    console.log("LOGGING IN");
     console.log(values);
     const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
@@ -97,8 +102,9 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    console.log("heool");
     if (isLogin) await login(values, onSubmitProps);
-    if (isRegister) await register(values, onSubmitProps);
+    else if (isRegister) await register(values, onSubmitProps);
   };
 
   return (

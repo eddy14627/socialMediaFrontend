@@ -3,6 +3,5 @@ const BASE_URL = "https://go-social-weqt.onrender.com";
 // https://go-social-weqt.onrender.com
 // if (process.env.NODE_ENV === "production") {
 //   BASE_URL = "https://go-social-weqt.onrender.com";
-// hello base url
-// }
+
 export default BASE_URL;

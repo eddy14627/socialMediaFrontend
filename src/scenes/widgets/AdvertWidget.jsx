@@ -22,25 +22,25 @@ export const AdvertWidget = () => {
         width="100%"
         height="auto"
         alt="advert"
-        src={`${BASE_URL}/assets/info4.jpeg`}
+        src={`https://res.cloudinary.com/ticktocktreasure/image/upload/v1687589247/Animated-Ads-Maker-Mango-Animation-Maker_wltdgw.png`}
         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
       />
       <FlexBetween>
-        <Typography color={main}>MikaCosmetics</Typography>
-        <Typography color={medium}>MikaCosmetics.com</Typography>
+        <Typography color={main}>Go Social </Typography>
+        <Typography color={medium}>GoSocial.com</Typography>
       </FlexBetween>
       <Typography color={medium} m="0.5rem 0">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas aut
-        laudantium recusandae ea excepturi praesentium sit at, esse iure
-        mollitia consequatur pariatur deserunt neque exercitationem, cum earum.
-        Explicabo, corrupti ipsa! Unde, minima voluptate. Reiciendis repellat
-        quis quas autem porro accusamus distinctio vitae quisquam, architecto
-        ullam suscipit? Animi iste quasi, tenetur autem provident odio deleniti
-        excepturi itaque doloribus, inventore ea modi! Officiis pariatur ipsam
-        praesentium, recusandae minima commodi deserunt ipsum voluptatibus
-        maiores itaque molestias, mollitia sint. Consequuntur, aut pariatur
-        excepturi qui tempore nostrum nam eligendi odio! Quibusdam accusamus
-        blanditiis officia eum?
+        Introducing a revolutionary social media platform that will change the
+        way you connect, share, and explore. Join our vibrant community of users
+        from all walks of life and experience the power of true social
+        engagement. With our user-friendly interface and innovative features,
+        staying connected with friends, family, and the world has never been
+        easier. Share your thoughts, photos, and videos effortlessly, and
+        discover exciting content tailored to your interests. Connect with
+        like-minded individuals, join groups, and participate in meaningful
+        discussions. Unleash your creativity, build meaningful relationships,
+        and stay up-to-date with the latest trends. Embrace the future of social
+        media and join us today!
       </Typography>
     </WidgetWrapper>
   );

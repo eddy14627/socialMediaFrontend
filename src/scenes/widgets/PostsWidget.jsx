@@ -1,21 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, setPosts } from "state";
 import PostWidget from "./PostWidget";
 import BASE_URL from "../../url.js";
+import Loader from "./Loader";
 
 const PostsWidget = ({ userId, isProfile }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
+    setIsLoading(true);
     const response = await fetch(`${BASE_URL}/posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
+    setIsLoading(false);
   };
 
   const getUserPosts = async () => {
@@ -39,7 +43,10 @@ const PostsWidget = ({ userId, isProfile }) => {
 
   return (
     <>
-      {Array.isArray(posts) &&
+      {isLoading ? (
+        <Loader />
+      ) : (
+        Array.isArray(posts) &&
         posts.map(
           ({
             _id,
@@ -68,7 +75,8 @@ const PostsWidget = ({ userId, isProfile }) => {
               />
             );
           }
-        )}
+        )
+      )}
     </>
   );
 };

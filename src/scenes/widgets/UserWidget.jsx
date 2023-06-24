@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import BASE_URL from "../../url.js";
 
 const UserWidget = ({ userId, picturePath }) => {
-  console.log("picture in user widget", picturePath);
   const [user, setUser] = useState({});
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const UserWidget = ({ userId, picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    console.log(data);
     setUser(data);
   };
 

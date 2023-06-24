@@ -68,18 +68,14 @@ const Form = () => {
       formData.append("picturePath", values.picture.name);
     }
 
-    try {
-      const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
-        method: "POST",
-        body: formData,
-      });
-      const savedUser = await savedUserResponse.json();
-      console.log(savedUser);
-      if (savedUser) {
-        setPageType("login");
-      }
-    } catch {
-      // toast.error(err?.data?.message || err.error);
+    const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      body: formData,
+    });
+    const savedUser = await savedUserResponse.json();
+    console.log(savedUser);
+    if (savedUser) {
+      setPageType("login");
     }
     onSubmitProps.resetForm();
   };
@@ -87,26 +83,22 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     console.log("LOGGING IN");
     console.log(values);
-    try {
-      const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const loggedIn = await loggedInResponse.json();
+    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
 
-      if (loggedIn) {
-        dispatch(
-          setLogin({
-            user: loggedIn.user,
-            token: loggedIn.token,
-          })
-        );
-        navigate("/home");
-      } else {
-        toast.error("user do not exist");
-      }
-    } catch {}
+    if (loggedIn) {
+      dispatch(
+        setLogin({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
+      );
+      navigate("/home");
+    }
     onSubmitProps.resetForm();
   };
 

@@ -13,7 +13,7 @@ const PostsWidget = ({ userId, isProfile }) => {
 
   const getPosts = async () => {
     setIsLoading(true);
-    const response = await fetch(`/posts`, {
+    const response = await fetch(`${BASE_URL}/posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -23,7 +23,7 @@ const PostsWidget = ({ userId, isProfile }) => {
   };
 
   const getUserPosts = async () => {
-    const response = await fetch(`/posts/userPost/${userId}`, {
+    const response = await fetch(`${BASE_URL}/posts/userPost/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

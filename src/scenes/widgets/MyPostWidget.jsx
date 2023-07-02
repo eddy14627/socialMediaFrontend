@@ -64,7 +64,7 @@ const MyPostWidget = ({ picturePath }) => {
       }
     }
     if (!flag) {
-      const response = await fetch(`/posts`, {
+      const response = await fetch(`${BASE_URL}/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

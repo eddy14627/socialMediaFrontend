@@ -79,7 +79,7 @@ const Form = () => {
       }
     }
     if (!flag) {
-      const savedUserResponse = await fetch(`/auth/register`, {
+      const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         body: formData,
       });
@@ -98,7 +98,7 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     console.log("LOGGING IN");
     console.log(values);
-    const loggedInResponse = await fetch(`/auth/login`, {
+    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),

@@ -25,6 +25,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import BASE_URL from "../../url.js";
+import { toast } from "react-toastify";
 
 const MyPostWidget = ({ picturePath }) => {
   // console.log(picturePath);
@@ -48,16 +49,36 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
+    let flag = false;
+    if (image) {
+      console.log(image);
+      const fileExtension = image.name.split(".").pop().toLowerCase();
+      const allowedExtensions = ["jpg", "jpeg", "png"]; // Add more extensions if needed
 
-    const response = await fetch(`${BASE_URL}/posts`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
-    setImage(null);
-    setPost("");
+      if (allowedExtensions.includes(fileExtension)) {
+        formData.append("picturePath", image.name);
+      } else {
+        flag = true;
+        toast.error("Invalid file extension");
+        // Display an error message to the user
+      }
+    }
+    if (!flag) {
+      const response = await fetch(`/posts`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const posts = await response.json();
+      if (posts) {
+        dispatch(setPosts({ posts }));
+      }
+      setImage(null);
+      setPost("");
+      toast.success("posted successfully");
+    } else {
+      toast.error("posting failed");
+    }
   };
 
   return (

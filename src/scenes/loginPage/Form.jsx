@@ -64,40 +64,58 @@ const Form = () => {
     for (let value in values) {
       formData.append(value, values[value]);
     }
+    let flag = false;
     if (values.picture) {
-      formData.append("picturePath", values.picture.name);
-    }
+      console.log(values.picture);
+      const fileExtension = values.picture.name.split(".").pop().toLowerCase();
+      const allowedExtensions = ["jpg", "jpeg", "png"]; // Add more extensions if needed
 
-    const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
-      method: "POST",
-      body: formData,
-    });
-    const savedUser = await savedUserResponse.json();
-    console.log(savedUser);
-    if (savedUser) {
-      setPageType("login");
+      if (allowedExtensions.includes(fileExtension)) {
+        formData.append("picturePath", values.picture.name);
+      } else {
+        flag = true;
+        toast.error("Invalid file extension");
+        // Display an error message to the user
+      }
     }
-    onSubmitProps.resetForm();
+    if (!flag) {
+      const savedUserResponse = await fetch(`/auth/register`, {
+        method: "POST",
+        body: formData,
+      });
+      const savedUser = await savedUserResponse.json();
+      console.log(savedUser);
+      if (savedUser) {
+        setPageType("login");
+      }
+      toast.success("successfully registered");
+      onSubmitProps.resetForm();
+    } else {
+      toast.error("registration failed");
+    }
   };
 
   const login = async (values, onSubmitProps) => {
     console.log("LOGGING IN");
     console.log(values);
-    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
+    const loggedInResponse = await fetch(`auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
     const loggedIn = await loggedInResponse.json();
-
-    if (loggedIn) {
+    console.log(loggedIn);
+    if (!loggedIn.msg) {
       dispatch(
         setLogin({
           user: loggedIn.user,
           token: loggedIn.token,
         })
       );
+      toast.success("successfully logged in");
       navigate("/home");
+    } else {
+      toast.error("invalid credentials");
     }
     onSubmitProps.resetForm();
   };

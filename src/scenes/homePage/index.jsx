@@ -1,5 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
-import React, { useEffect } from "react";
+import Loader from "../widgets/Loader";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "scenes/navbar";
 import { AdvertWidget } from "scenes/widgets/AdvertWidget";
@@ -11,12 +12,15 @@ import { setActiveUser } from "state";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const [isLoading, setIsLoading] = useState(false);
   const { _id, picturePath } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(setActiveUser({ activeUserPicture: picturePath, id: _id }));
-  });
+    setIsLoading(false);
+  }, []);
   return (
     <Box>
       <Navbar />
@@ -35,7 +39,11 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <MyPostWidget picturePath={picturePath} />
-          <PostsWidget userId={_id} isProfile="false" />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <PostsWidget userId={_id} isProfile="false" />
+          )}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">

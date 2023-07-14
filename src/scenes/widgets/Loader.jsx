@@ -1,18 +1,7 @@
-import { Spinner } from 'react-bootstrap';
+import { Typography } from "@mui/material";
 
 const Loader = () => {
-  return (
-    <Spinner
-      animation='border'
-      role='status'
-      style={{
-        width: '100px',
-        height: '100px',
-        margin: 'auto',
-        display: 'block',
-      }}
-    ></Spinner>
-  );
+  return <Typography style={{ fontSize: "24px" }}>Loading .....</Typography>;
 };
 
 export default Loader;

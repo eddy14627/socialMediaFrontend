@@ -178,11 +178,11 @@ const PostWidget = ({
                     <UserImage image={commentPicture} size="30px" />
                   </Button>
                   <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                    {commentText.length < 200
+                    {/* {commentText.length < 200
                       ? commentText
                       : !seeMore
                       ? `${commentText.slice(0, 80)}.....`
-                      : commentText}
+                      : commentText} */}
                     {commentText.length > 200 ? (
                       !seeMore ? (
                         <Button

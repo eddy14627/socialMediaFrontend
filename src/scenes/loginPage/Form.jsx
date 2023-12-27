@@ -129,10 +129,8 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    setIsLoading(true);
     if (isLogin) await login(values, onSubmitProps);
     else if (isRegister) await register(values, onSubmitProps);
-    setIsLoading(false);
   };
 
   return (

@@ -7,7 +7,7 @@ import Loader from "./Loader";
 import { Typography } from "@mui/material";
 
 const PostsWidget = ({ userId, isProfile }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
@@ -37,13 +37,13 @@ const PostsWidget = ({ userId, isProfile }) => {
 
   useEffect(() => {
     // req to fix this code so that we can ge personilized posts in user section
-    setIsLoading(true);
+    // setIsLoading(true);
     if (isProfile === "true") {
       getUserPosts();
     } else {
       getPosts();
     }
-    setIsLoading(false);
+    // setIsLoading(false);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

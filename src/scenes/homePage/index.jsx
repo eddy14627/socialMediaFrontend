@@ -8,11 +8,13 @@ import FriendListWidgets from "scenes/widgets/FriendListWidgets";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
 import PostsWidget from "scenes/widgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
+// import Spinner from "components/Spinner";
+// import Loader from "components/Loader";
 import { setActiveUser } from "state";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { _id, picturePath } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -22,38 +24,44 @@ const HomePage = () => {
     setIsLoading(false);
   }, []);
   return (
-    <Box>
-      <Navbar />
-      <Box
-        width="100%"
-        padding="2rem 6%"
-        display={isNonMobileScreens ? "flex" : "block"}
-        gap="0.5rem"
-        justifyContent="space-between"
-      >
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picturePath} />
-        </Box>
-        <Box
-          flexBasis={isNonMobileScreens ? "42%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}
-        >
-          <MyPostWidget picturePath={picturePath} />
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <PostsWidget userId={_id} isProfile="false" />
-          )}
-        </Box>
-        {isNonMobileScreens && (
-          <Box flexBasis="26%">
-            <AdvertWidget />
-            <Box m="2rem 0" />
-            <FriendListWidgets userId={_id} />
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box>
+          <Navbar />
+          <Box
+            width="100%"
+            padding="2rem 6%"
+            display={isNonMobileScreens ? "flex" : "block"}
+            gap="0.5rem"
+            justifyContent="space-between"
+          >
+            <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+              <UserWidget userId={_id} picturePath={picturePath} />
+            </Box>
+            <Box
+              flexBasis={isNonMobileScreens ? "42%" : undefined}
+              mt={isNonMobileScreens ? undefined : "2rem"}
+            >
+              <MyPostWidget picturePath={picturePath} />
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <PostsWidget userId={_id} isProfile="false" />
+              )}
+            </Box>
+            {isNonMobileScreens && (
+              <Box flexBasis="26%">
+                <AdvertWidget />
+                <Box m="2rem 0" />
+                <FriendListWidgets userId={_id} />
+              </Box>
+            )}
           </Box>
-        )}
-      </Box>
-    </Box>
+        </Box>
+      )}
+    </>
   );
 };
 

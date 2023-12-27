@@ -12,6 +12,7 @@ import BASE_URL from "../../url.js";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
+
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width : 1000px)");

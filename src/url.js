@@ -1,7 +1,3 @@
-// const BASE_URL = "https://go-social-weqt.onrender.com";
-const BASE_URL = "http://localhost:3001";
-// https://go-social-weqt.onrender.com
-// if (process.env.NODE_ENV === "production") {
-//   BASE_URL = "https://go-social-weqt.onrender.com";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export default BASE_URL;

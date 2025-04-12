@@ -89,11 +89,19 @@ const MyPostWidget = ({ picturePath }) => {
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
+          multiline={true} // Enable multiline
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
             borderRadius: "2rem",
             padding: "1rem 2rem",
+            minHeight: "4rem", // Initial minimum height
+            maxHeight: "20rem", // Maximum height before scrolling
+            overflowY: "auto", // Add scroll for very long text
+            "& .MuiInputBase-input": {
+              whiteSpace: "pre-wrap", // Preserve line breaks
+              wordBreak: "break-word", // Prevent horizontal overflow
+            },
           }}
         />
       </FlexBetween>

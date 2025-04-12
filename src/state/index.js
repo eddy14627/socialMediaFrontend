@@ -33,18 +33,23 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
-    // this is all posts
+    // Set all posts and ensure they are sorted by `createdAt` in descending order
     setPosts: (state, action) => {
       console.log(action.payload);
-      state.posts = action.payload.posts;
+      state.posts = action.payload.posts.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
     },
-    // this is specified user posts
+    // Update a specific post and ensure the posts array remains sorted
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;
         return post;
       });
-      state.posts = updatedPosts;
+      // Sort the updated posts array by `createdAt` in descending order
+      state.posts = updatedPosts.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
     },
     setActiveUser: (state, action) => {
       console.log(action.payload);
@@ -62,4 +67,5 @@ export const {
   setPosts,
   setPost,
 } = authSlice.actions;
+
 export default authSlice.reducer;

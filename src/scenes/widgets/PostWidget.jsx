@@ -35,7 +35,7 @@ const PostWidget = ({
   comments,
 }) => {
   const { activeUserPicture, id } = useSelector((state) => state.currUser);
-  const [seeMore, setSeeMore] = useState(false);
+  const [seeMoreDescription, setSeeMoreDescription] = useState(false); // State for toggling description
   const [inputComment, setInputComment] = useState("");
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -71,6 +71,7 @@ const PostWidget = ({
     dispatch(setPost({ post: response }));
     setInputComment("");
   };
+
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -97,10 +98,44 @@ const PostWidget = ({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
+
+      {/* Description with Show More/Show Less */}
       <Typography color={main} sx={{ mt: "1rem" }}>
-        {" "}
-        {description}{" "}
+        {description.length > 100 ? ( // Limit description to first 100 characters
+          seeMoreDescription ? (
+            <>
+              {description}{" "}
+              <Button
+                onClick={() => setSeeMoreDescription(false)}
+                sx={{
+                  color: primary,
+                  textTransform: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Show Less
+              </Button>
+            </>
+          ) : (
+            <>
+              {description.slice(0, 100)}...{" "}
+              <Button
+                onClick={() => setSeeMoreDescription(true)}
+                sx={{
+                  color: primary,
+                  textTransform: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Show More
+              </Button>
+            </>
+          )
+        ) : (
+          description // If description is shorter than the limit, show it fully
+        )}
       </Typography>
+
       {picturePath && (
         <img
           width="100%"
@@ -110,6 +145,7 @@ const PostWidget = ({
           src={picturePath}
         />
       )}
+
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           {/* LIKE */}
@@ -137,14 +173,15 @@ const PostWidget = ({
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
+
+      {/* Comments Section */}
       {isComments && (
         <Box mt="0.5rem">
           <Box marginBottom="10px" display="flex" flexDirection="row">
             <Button
               onClick={() => {
                 navigate(`/profile/${id}`);
-                // find why this is used and how to replace with some permanent solution
-                navigate(0);
+                navigate(0); // Temporary solution; replace with a better approach if needed
               }}
             >
               <UserImage image={activeUserPicture} size="50px" />
@@ -163,52 +200,26 @@ const PostWidget = ({
               <Button onClick={handleSubmitComment}>comment</Button>
             </Box>
           </Box>
-          {comments.map(({ commentText, userId, commentPicture }) => {
-            return (
-              <Box>
-                <Divider />
-                <Box marginLeft="20px" display="flex" flexDirection="row">
-                  <Button
-                    onClick={() => {
-                      navigate(`/profile/${userId}`);
-                      // find why this is used and how to replace with some permanent solution
-                      navigate(0);
-                    }}
-                  >
-                    <UserImage image={commentPicture} size="30px" />
-                  </Button>
-                  <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                    {/* {commentText.length < 200
-                      ? commentText
-                      : !seeMore
-                      ? `${commentText.slice(0, 80)}.....`
-                      : commentText} */}
-                    {commentText.length > 200 ? (
-                      !seeMore ? (
-                        <Button
-                          onClick={() => {
-                            setSeeMore(!seeMore);
-                          }}
-                        >
-                          See More
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            setSeeMore(!seeMore);
-                          }}
-                        >
-                          See Less
-                        </Button>
-                      )
-                    ) : (
-                      commentText
-                    )}
-                  </Typography>
-                </Box>
+
+          {comments.map(({ commentText, userId, commentPicture }, index) => (
+            <Box key={index}>
+              <Divider />
+              <Box marginLeft="20px" display="flex" flexDirection="row">
+                <Button
+                  onClick={() => {
+                    navigate(`/profile/${userId}`);
+                    navigate(0); // Temporary solution; replace with a better approach if needed
+                  }}
+                >
+                  <UserImage image={commentPicture} size="30px" />
+                </Button>
+                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                  {commentText}
+                </Typography>
               </Box>
-            );
-          })}
+            </Box>
+          ))}
+
           <Divider />
         </Box>
       )}

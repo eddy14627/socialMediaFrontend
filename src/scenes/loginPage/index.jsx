@@ -11,8 +11,6 @@ const LoginPage = () => {
     <Box
       display="flex"
       flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
       minHeight="100vh"
       backgroundColor={theme.palette.background.default}
     >
@@ -33,27 +31,36 @@ const LoginPage = () => {
         </Typography>
       </Box>
 
-      {/* Welcome Message & Form */}
+      {/* Main Content */}
       <Box
-        width={isNonMobileScreens ? "40%" : "90%"}
-        p="2rem"
-        m="2rem auto"
-        borderRadius="1.5rem"
-        backgroundColor={theme.palette.background.alt}
-        boxShadow="0px 4px 10px rgba(0, 0, 0, 0.2)"
-        textAlign="center"
+        flexGrow={1} // Ensures this section takes up remaining space
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
       >
-        <Typography
-          fontWeight="500"
-          variant="h5"
-          sx={{
-            mb: "1.5rem",
-            color: theme.palette.text.primary,
-          }}
+        <Box
+          width={isNonMobileScreens ? "40%" : "90%"}
+          p="2rem"
+          m="2rem auto"
+          borderRadius="1.5rem"
+          backgroundColor={theme.palette.background.alt}
+          boxShadow="0px 4px 10px rgba(0, 0, 0, 0.2)"
+          textAlign="center"
         >
-          Welcome to <strong>GoSocial</strong>, the Social Media for Sociopaths!
-        </Typography>
-        <Form />
+          <Typography
+            fontWeight="500"
+            variant="h5"
+            sx={{
+              mb: "1.5rem",
+              color: theme.palette.text.primary,
+            }}
+          >
+            Welcome to <strong>GoSocial</strong>, the Social Media for
+            Sociopaths!
+          </Typography>
+          <Form />
+        </Box>
       </Box>
     </Box>
   );

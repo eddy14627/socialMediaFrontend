@@ -5,29 +5,53 @@ import Form from "./Form";
 
 const LoginPage = () => {
   const theme = useTheme();
-  const isNonMobileScreens = useMediaQuery("(min-width : 1000px)");
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   return (
-    <Box>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      backgroundColor={theme.palette.background.default}
+    >
+      {/* Header */}
       <Box
         width="100%"
         backgroundColor={theme.palette.background.alt}
         p="1rem 6%"
         textAlign="center"
+        boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Typography fontWeight="bold" fontSize="32px" color="primary">
+        <Typography
+          fontWeight="bold"
+          fontSize="32px"
+          color={theme.palette.primary.main}
+        >
           GoSocial
         </Typography>
       </Box>
+
+      {/* Welcome Message & Form */}
       <Box
-        width={isNonMobileScreens ? "50%" : "93%"}
+        width={isNonMobileScreens ? "40%" : "90%"}
         p="2rem"
         m="2rem auto"
         borderRadius="1.5rem"
         backgroundColor={theme.palette.background.alt}
+        boxShadow="0px 4px 10px rgba(0, 0, 0, 0.2)"
+        textAlign="center"
       >
-        <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-          Welcome to GoSocial , the Social Media for Sociopaths !!!
+        <Typography
+          fontWeight="500"
+          variant="h5"
+          sx={{
+            mb: "1.5rem",
+            color: theme.palette.text.primary,
+          }}
+        >
+          Welcome to <strong>GoSocial</strong>, the Social Media for Sociopaths!
         </Typography>
         <Form />
       </Box>
